@@ -13,10 +13,10 @@
 <%@include file="../taglibs.jspf"%>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
-<tags:head title="Customer \#${customer.id}: ${customer.name}" />
+<tags:head title="Customer \#${customer.id}: ${customer.firstName}" />
 <body id="customer-view">
   <h1>
-    Customer #<c:out value="${customer.id}" />: <c:out value="${customer.name}" />
+    Customer #<c:out value="${customer.id}" />: <c:out value="${customer.firstName}" />
   </h1>
   <p>Might I suggest enhancing the system to support more than just a customer's name?</p>
   <p>

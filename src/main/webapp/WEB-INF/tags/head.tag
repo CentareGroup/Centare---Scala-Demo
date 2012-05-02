@@ -14,7 +14,7 @@
 <%@attribute name="title" required="true" rtexprvalue="true" type="java.lang.String" %>
 <head>
     <meta http-equiv="Content-Type" content="text/html;charset=utf-8" >
-    <link rel="stylesheet" href="<c:url value="/style/style.css"/>">
+    <link rel="stylesheet" href="<c:url value="/css/main.css"/>">
     <title>${title}</title>
     <jsp:doBody/>
 </head>

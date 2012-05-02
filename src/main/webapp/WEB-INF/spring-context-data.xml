@@ -21,7 +21,8 @@
 
     <tx:annotation-driven/>
 
-    <context:component-scan base-package="com.example.scalawebapp.repository"/>
+    <context:component-scan base-package="com.example.scalawebapp.service"/>
+    <context:component-scan base-package="com.example.scalawebapp.dao"/>
 
     <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
         <property name="dataSource" ref="dataSource"/>

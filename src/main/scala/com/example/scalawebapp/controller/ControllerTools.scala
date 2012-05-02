@@ -12,6 +12,7 @@
 
 package com.example.scalawebapp.controller
 
+
 import org.springframework.ui.ModelMap
 
 object ControllerTools {

@@ -17,10 +17,23 @@
 <body id="customer-new">
   <h1>New Customer</h1>
   <form:form commandName="customerData">
-    <form:label path="name">Name</form:label>
-    <form:input path="name" />
-    <form:errors path="name" cssStyle="color:red"/>
+    <form:label path="firstName">First Name</form:label>
+    <form:input path="firstName" />
+    <form:errors path="firstName" cssClass="errors"/>
     <br/>
+    <form:label path="lastName">Last Name</form:label>
+    <form:input path="lastName" />
+    <form:errors path="lastName" cssClass="errors"/>
+    <br/>
+    <form:label path="middleInitial">Middle Initial</form:label>
+    <form:input path="middleInitial" />
+    <form:errors path="middleInitial" cssClass="errors"/>
+    <br/>
+    <form:label path="dateOfBirth">Middle Initial</form:label>
+    <form:input path="dateOfBirth" />
+    <form:errors path="dateOfBirth" cssClass="errors"/>
+    <br/>
+    
     <input type="submit" value="Create Customer" />
   </form:form>
   <p>

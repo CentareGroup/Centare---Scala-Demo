@@ -14,9 +14,14 @@ package com.example.scalawebapp.controller
 
 import org.springframework.stereotype.Controller
 import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.servlet.ModelAndView
+import com.centare.scalaweb.GreetingProcess
 
 @Controller
 class HelloWorldController {
   @RequestMapping(Array("/hello"))
-  def showHello = "helloPage"
+  def showHello() = {
+    val gp = new GreetingProcess
+    new ModelAndView("helloPage", "greeting", gp.buildGreeting("greetings and salutations"));
+  }
 }

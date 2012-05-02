@@ -17,15 +17,16 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.web.bind.annotation.{ PathVariable, ModelAttribute, RequestMapping, RequestParam }
 import org.springframework.web.bind.annotation.RequestMethod._
 import org.springframework.web.servlet.ModelAndView
-
 import com.example.scalawebapp.data.Customer
-import com.example.scalawebapp.repository.CustomerRepository
+import com.example.scalawebapp.service.CustomerService
 import reflect.BeanProperty
 import javax.validation.constraints.NotNull
 import org.hibernate.validator.constraints.NotEmpty
 import javax.validation.Valid
 import org.springframework.validation.BindingResult
 import collection.JavaConversions
+import org.springframework.context.annotation.Scope
+import java.util.Date
 
 @Controller
 class CustomerController {
@@ -33,81 +34,93 @@ class CustomerController {
   import ControllerTools._
 
   @Autowired
-  val customerRepository: CustomerRepository = null
+  val customerService: CustomerService = null
 
   @RequestMapping(value = Array("/customers/new"), method = Array(GET))
   def showNewCustomerForm() = new ModelAndView("customer/customer-new", "customerData", new CustomerPageData)
 
   @RequestMapping(value = Array("/customers/new"), method = Array(POST))
   def createNewCustomer(
-        @Valid @ModelAttribute("customerData") customerData: CustomerPageData,
-        bindingResult: BindingResult): String = {
+    @Valid @ModelAttribute("customerData") customerData: CustomerPageData,
+    bindingResult: BindingResult): String = {
     if (bindingResult.hasErrors) {
       "customer/customer-new"
     } else {
       val newCustomer = new Customer
       customerData.copyTo(newCustomer)
-      "redirect:/customers/" + customerRepository.save(newCustomer) + ".html"
+      "redirect:/customers/" + customerService.save(newCustomer) + ".html"
     }
   }
 
   @RequestMapping(value = Array("/customers/{customerId}"), method = Array(GET))
   def viewCustomer(
-        @PathVariable customerId: Long,
-        @RequestParam(required = false) edit: String) = {
-    val customer: Customer = customerRepository.get(customerId)
+    @PathVariable customerId: Long,
+    @RequestParam(required = false) edit: String) = {
+    val customer: Customer = customerService.get(customerId)
     if (edit == null) {
       new ModelAndView("customer/customer-view", "customer", customer)
-    }
-    else {
+    } else {
       new ModelAndView("customer/customer-edit", Map("customer" -> customer, "customerData" -> CustomerPageData(customer)))
     }
   }
 
   @RequestMapping(value = Array("/customers/{customerId}"), method = Array(POST))
   def editCustomer(
-        @PathVariable customerId: Long,
-        @Valid @ModelAttribute("customerData") customerData: CustomerPageData,
-        bindingResult: BindingResult): ModelAndView = {
-    val customer = customerRepository.get(customerId)
+    @PathVariable customerId: Long,
+    @Valid @ModelAttribute("customerData") customerData: CustomerPageData,
+    bindingResult: BindingResult): ModelAndView = {
+    val customer = customerService.get(customerId)
     if (bindingResult.hasErrors) {
       new ModelAndView("customer/customer-edit", "customer", customer)
     } else {
       customerData.copyTo(customer)
-      customerRepository.update(customer)
+      customerService.update(customer)
       new ModelAndView("redirect:/customers/{customerId}.html")
     }
   }
 
   @RequestMapping(value = Array("/customers/{customerId}"), method = Array(DELETE))
   def deleteCustomer(@PathVariable customerId: Long) = {
-    customerRepository.delete(customerId)
+    customerService.delete(customerId)
     "redirect:/"
   }
 
   @RequestMapping(value = Array("/customers"), method = Array(DELETE))
   def deleteAllCustomers() = {
-    for (c: Customer <- JavaConversions.asScalaBuffer(customerRepository.getAll)) {
-      customerRepository.delete(c.id)
+    for (c: Customer <- JavaConversions.asScalaBuffer(customerService.getAll)) {
+      customerService.delete(c.id)
     }
     "redirect:/"
   }
 }
 
 class CustomerPageData {
-  @BeanProperty @NotNull @NotEmpty
-  var name: String = null;
+  @NotNull
+  @NotEmpty
+  @BeanProperty var firstName: String = _;
 
-  override def toString = "[CustomerPageData: name = " + name + "]"
+  @NotNull
+  @NotEmpty
+  @BeanProperty var lastName: String = _;
+
+  @BeanProperty var middleInitial: String = _;
+
+  @BeanProperty var dateOfBirth: Date = _;
+
+  override def toString = "[CustomerPageData: name = " + firstName + "]"
 
   def copyTo(customer: Customer): Unit = {
-    // TODO: Use Dozer to do this automatically
-    customer.name = name
+    customer.firstName = firstName
+    customer.lastName = lastName
+    customer.middleInitial = middleInitial
+    customer.dateOfBirth = dateOfBirth
   }
 
   def copyFrom(customer: Customer): Unit = {
-    // TODO: Use Dozer to do this automatically
-    name = customer.name
+    firstName = customer.firstName
+    lastName = customer.lastName
+    middleInitial = customer.middleInitial
+    dateOfBirth = customer.dateOfBirth
   }
 }
 

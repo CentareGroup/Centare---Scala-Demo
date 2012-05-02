@@ -27,7 +27,7 @@
   <h2>Customers</h2>
   <ul id="customer-list">
     <c:forEach items="${customers}" var="customer">
-      <li><a href="<c:url value="/customers/${customer.id}.html"/>">#<c:out value="${customer.id}" />: <c:out value="${customer.name}" />
+      <li><a href="<c:url value="/customers/${customer.id}.html"/>">#<c:out value="${customer.id}" />: <c:out value="${customer.firstName}" />
       </a>
       </li>
     </c:forEach>

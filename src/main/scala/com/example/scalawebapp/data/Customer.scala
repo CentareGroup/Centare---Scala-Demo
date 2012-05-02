@@ -14,11 +14,14 @@ package com.example.scalawebapp.data
 
 import reflect.BeanProperty
 import javax.persistence.Entity
+import java.util.Date
 
 @Entity
 class Customer extends AbstractEntity {
-  @BeanProperty
-  var name: String = null;
+  @BeanProperty var firstName: String = _
+  @BeanProperty var lastName: String = _
+  @BeanProperty var middleInitial: String = _
+  @BeanProperty var dateOfBirth: Date = _
   
-  override def toString = "[Customer: id = " + id + ", name = " + name + "]"
+  override def toString = "Customer: id = %d %s, %s %s".format(id, lastName, firstName, middleInitial)
 }
