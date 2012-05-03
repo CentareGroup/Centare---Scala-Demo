@@ -29,7 +29,7 @@
     <form:input path="middleInitial" />
     <form:errors path="middleInitial" cssClass="errors"/>
     <br/>
-    <form:label path="dateOfBirth">Middle Initial</form:label>
+    <form:label path="dateOfBirth">Date Of Birth</form:label>
     <form:input path="dateOfBirth" />
     <form:errors path="dateOfBirth" cssClass="errors"/>
     <br/>
